@@ -3,6 +3,73 @@ Use this file to write your answer to Stage 2 of the firmware tasks.
 CAN
 Q1:
 
+The Controller Area Netwrok (CAN bus) is the default choice for communication between components in automotives such as the
+engine, brakes, steering, so on, so as to ensure maximum control. This is because the system is robust towards electrical and electromagenetic interferences,
+which are ideal for safety-critical applications such as automatives requiring large workloads, energy, and communication. This leads to CAN having superior control and fault
+detection capabilities compared to other protocols such as USB, PCIE, SPI, etc.
+
+CAN vs USB:
+
+While USB allows for higher bandwidth (Gbps compared to CAN's max of 1 Mbps) as well as support for its rich ecosystem, supporting
+many consumer devices and development tools, it is not as robust as CAN in terms of absolute measurements in its delivery times, where CAN
+has guaranteed messaged delivery times while USB has innate latency. CAN is also more resilient, being able to withstand unreasonbale temperatures, vibrations, electromagenetic interferences.
+
+CAN vs PCIe:
+
+Similar to USB, PCIe has a much higher bandwidth threshold (64+ Gbps possible compared to CAN's 1 Mbps maximum), as well as features like hot-plugging and power management.
+PCIe is similar to USB in the sense that it is not as resilient as CAN, since PCIe is designed for controlled computer environments, which CAN is designed for automotives.
+CAN also has guarantees that PCIe can't offer in its deterministic message delivery, where PCIe works on best-effort packet switching.
+Modularity is also a trait of CAN, where a single node failure does not affect the entire network and is isolated, while for PCIe, one fault can lead to potential system failure.
+This means that the issue can be triaged more effectively using CAN protocol.
+
+CAN vs SPI:
+
+Similar to USB and PCIe above, SPI also has higher bandwidth (10-100+ MBps vs CAN's 1 Mbps max). It also requires simpler hardware as no specialized transceiveres are required.
+SPI also allows for simultaneous bidirectional communication (Full-duplex) vs CAN's half duplex
+However, CAN has noise immunity due to its differential signaling vs SPI's single-ended signals, and also 
+error detection capabilities, where CAN has CRC vs SPI's no error checking. 
+Similar to PCIe, SPI cannot enable fault isolation, so a single issue might crash the network, while CAN does not have this issue.
+
+
 Q2:
+
+All of the mentioned departments revolve around an inherently extreme system, which demands for 
+split-second, flash-like timing in terms of engine control, brakes, thrusts, etc with zero tolerance for communication failures
+all the while operating in extreme pressure, heat, vibration, noise, as well as handling of real-time data from a 
+multitude of sensors simultaneously. The explanations above comparing CAN to other protocols clearly shows that the other protocols allow
+for some margin of error and slack, and therefore not suitable for handling a dynamic system like race cars. They excel in higher bandwidth, support for various mediums, which are
+not the focus.
+
+For example, an F1 engine requires coordination between
+- Throttle position sensors
+- Ignition timing
+- Turbocharger control
+and other mechanisms all while experiencing 5G forces and extreme electrical noise.
+USB's host-device dependency means that if a single component fails, the entire system crashes
+Ethernet's variable latency is not helpful as the engine timing cannot wait for network packets
+SPI requires for each wire to be connected to each sensors. This will increase the chances of wiring issues.
+
+CAN allows for deterministic timing, where for example, fuel injection gets priority over dashboard updates,
+modularity, where 1/100 sensors fails, the engine still runs. There is no single point of failure. The EMI immunity due to differential signals
+ignore electrical noise from spark plugs. A simple logger can be illustrated :
+
+CAN Network Layout:
+ECU <-> CAN Bus <-> [Sensors: RPM, Throttle, Brake, G-Force, Temp] <-> Data Logger
+
+Message Priority Examples:
+ID 0x100 (Highest): Emergency engine shutdown
+ID 0x200 (High):    Brake pressure critical
+ID 0x300 (Medium):  Engine RPM data
+ID 0x400 (Low):     Ambient temperature
+
+Scenario:
+
+Driver steps on the brake at 200 mph at a turn, the brake pressure sensor sends high-priority message (ID 0x200),
+and CAN gives this message priority over low priority messages like temperature readings, allowing for 
+the brake system to respond as quick as possible. With other protocols, like USB, the brake message might wait behind temperature data transfer,
+
+Overall, CAN allows for strict coordination between all components in the system, and it hinges on the idea that no matter how powerful the individual components are,
+their utility is stripped when communication and coordination between them fails during the crucial moments.
+
 
 STM32 Chip Selection
