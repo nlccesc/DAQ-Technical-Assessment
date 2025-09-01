@@ -1,0 +1,13 @@
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+
+# Git files (if not using submodules)
+.gitmodules
+
+# Other common ignores
+*.log
+*.tmp
+.env
+node_modules/
