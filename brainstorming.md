@@ -64,7 +64,29 @@ Resources I looked through:
 - https://medium.com/formula-one-forever/data-the-unseen-driver-in-formula-1-cars-63f31c16f2fe
 - https://embetronicx.com/uncategorized/spi-vs-can-choosing-the-right-protocol-for-your-project/
 - https://www.quora.com/Why-is-controller-area-network-preferred-over-USBs-in-automobiles-and-industry-automation-for-rapid-transfer-of-data-between-devices
-- https://www.lenovo.com/ie/en/glossary/what-is-pcie/?orgRef=https%253A%252F%252Fwww.google.com%252F
+- https://www.lenovo.com/ie/en/glossary/what-is-pcie/?orgRef=https%253A%252F%252Fwww.google.com%
+
+STM32 Chip Selection
+
+- Went to the product selector webpage, filtered the columns to only show:
+
+Some general specs like:
+1. Part number
+2. Marketing Status
+3. Package
+4. Core
+5. Operating frequency
+
+Specific specs:
+1. Flash Size (kb) Prog to 2048
+2. Timers 16-bit typ to 12
+3. Number of A/D Converters typ to >= 3
+4. CAN 2.0 to >= 3
+5. Ethernet
+6. USB Type under USB Interfaces
+
+Other:
+1. Buy On Line
 
 ## Spyder
 

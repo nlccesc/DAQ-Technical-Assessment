@@ -73,3 +73,28 @@ their utility is stripped when communication and coordination between them fails
 
 
 STM32 Chip Selection
+
+STM32F767ZI
+
+Technical Reasons:
+
+1. 216 MHz ARM Cortex-M7
+2. 3 CAN buses
+3. 100Mbps Ethernet
+4. USB OTG FS/HS
+5. 12 × 16-bit timers
+6. 2048kB Flash
+7. 3 A/D Converters
+
+- For products > 3 A/D Converters, the CAN buses for those can only be 2, which does not fit the minimum CAN bus spec.
+- Smaller package, LQFP 144 (20×20mm)
+- No unecessary hardware cryptography feature (HW Crypto)
+- No unecessary graphics feature (MIPI-DSI)
+
+With the smaller package and no uncessary components, it reduces dead weight, power waste, and uncessary costs for some merchants.
+
+Practical Reasons:
+
+- Cheaper upon bulk purchases
+- Huge available stock (9986)
+- Fast delivery (3 to 5 days' lead time)
