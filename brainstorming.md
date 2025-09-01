@@ -52,6 +52,20 @@ which i found out that it was signed values being interpreted wrongly:
 - voltage: 0-1000v
 - temps: -50 to 150 degrees
 
+TASK 2
+
+Resources I looked through:
+
+- http://dewesoft.com/blog/what-is-can-bus
+- https://www.youtube.com/watch?v=JZSCzRT9TTo&t=196s&ab_channel=Electronoobs
+- https://www.youtube.com/watch?v=IyGwvGzrqp8&t=61s&ab_channel=Electronoobs
+- https://www.youtube.com/watch?v=0nVNwozXsIc&ab_channel=Rohde%26Schwarz
+- https://www.mercedesamgf1.com/news/feature-data-and-electronics-in-f1-explained
+- https://medium.com/formula-one-forever/data-the-unseen-driver-in-formula-1-cars-63f31c16f2fe
+- https://embetronicx.com/uncategorized/spi-vs-can-choosing-the-right-protocol-for-your-project/
+- https://www.quora.com/Why-is-controller-area-network-preferred-over-USBs-in-automobiles-and-industry-automation-for-rapid-transfer-of-data-between-devices
+- https://www.lenovo.com/ie/en/glossary/what-is-pcie/?orgRef=https%253A%252F%252Fwww.google.com%252F
+
 ## Spyder
 
 ## Cloud
