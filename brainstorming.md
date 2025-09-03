@@ -88,6 +88,10 @@ Specific specs:
 Other:
 1. Buy On Line
 
+Exported to an excel file, eligible products file is in the firmware folder.
+Checked distributors' stock, lead time, cost.
+Choice : STM32F767ZI
+
 ## Spyder
 
 ## Cloud
