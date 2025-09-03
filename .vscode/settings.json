@@ -1,6 +1,7 @@
 {
     "cmake.sourceDirectory": "/Users/haohan/Desktop/DAQ-Technical-Assessment/firmware",
     "files.associations": {
-        "map": "cpp"
+        "map": "cpp",
+        "string": "cpp"
     }
 }

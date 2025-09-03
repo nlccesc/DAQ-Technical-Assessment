@@ -92,6 +92,95 @@ Exported to an excel file, eligible products file is in the firmware folder.
 Checked distributors' stock, lead time, cost.
 Choice : STM32F767ZI
 
+Task 3:
+
+I decided that since there are 5 recommended unit tests to implement, it'll be good to have a single entry point (testmain.cpp) to include all modules
+
+1. canframecheck.cpp:
+
+since my main.cpp file uses sscanf to parse the camdump format, some issues such as:
+
+- malformed parentheses and timestamps
+- non hex CAN IDs
+- corrupted hex data 
+
+may occur, so i did a canframe struct that mirrors the main.cpp structure
+
+test cases:
+
+- interface validation, where it maps:
+can0 -> ControlBus
+can1 -> SensorBus
+can2 -> TractiveBus
+
+- CAN ID boundaries (standard vs extended)
+- data length limits (test 0-8 byte scenarios)
+- error recovery
+
+2. sensorvalue.cpp
+
+since main.cpp calls sig.Decode() and sig.RawToPhys() from dbcppp, the tests need to work without that library, so i created a test implementation mirroring that:
+
+static uint64_t extractBits(const std::vector<uint8_t>& data, const Signal& sig)
+static double convertToPhysical(uint64_t raw, const Signal& sig)
+
+test cases:
+
+- Endianness handling 
+1. Little endian (intel) vs Big endia (motorola) bit ordering
+
+- signed value interpretation
+- scaling - temp sensors, rpm
+- bit level extraction when signals dont align to byte boundaries
+
+3. idhandling.cpp 
+
+since main.cpp loads 3 DBC files, the risks are that the same CAN ID is defined differently across files
+
+- reality: 
+
+OEM DBC defines CAN ID 0x2C0 as vehicle speed (scale 0.01). Aftermarket ECU DBC defines same ID as wheel speed (scale 0.0625). since code processes both, there might be inconsistent results
+
+example dbc structure with dbcppp dependency
+
+conflict detection:
+
+1. Map CAN IDs to all messages that use them
+2. Check for bit overlaps between signals
+3. Check for same signal name, different scaling
+4. Report interface combinations (can0+can2 conflict, etc.)
+
+test cases:
+
+- no conflicts: different CAN IDs across dbc files
+- Bit overlaps: two dbc files define overlapping bit ranges for same CAN ID
+- Scaling conflicts: same signal name, different scale/offset values
+- 3way conflicts: all three DBC files define same CAN ID
+
+4. calculationcheck.cpp
+
+since CAN signals use complex bit layouts, 
+test cases:
+
+1. Temperature scaling - Raw 160 * 0.75 - 48 = 72°C
+2. RPM calculation - Raw 4000 * 0.25 = 1000 RPM
+3. Signed steering - 0xFF as 8-bit signed = -1 degrees
+4. Voltage precision - Raw 12500 * 0.001 = 12.5V
+
+Boundary tests
+- single bit extraction (status flags)
+- max bit lengths (64-bit values)
+- cross-byte scenarios (16-bit signal spanning bytes)
+
+5. errorhandling.cpp
+since the main.cpp file has try-catch around parseLine(), where bad lines are skipped, here the tests define what bad is:
+
+- Format check: (timestamp) interface id#data structure
+- Timestamp validation: numeric, positive, reasonable range
+- Interface validation: only can0/can1/can2 allowed (matches your DBC mapping)
+- CAN ID validation: hex format, within 29-bit limit
+- Data validation: even hex length, max 16 characters (8 bytes)
+
 ## Spyder
 
 ## Cloud
