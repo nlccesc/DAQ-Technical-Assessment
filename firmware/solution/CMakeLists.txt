@@ -18,12 +18,29 @@ add_subdirectory(dbcppp)
 # Include directories
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dbcppp/include)
 
-# Executable
+# Main executable
 add_executable(answer main.cpp)
-
-# Link libraries
 target_link_libraries(answer dbcppp)
 
+option(BUILD_TESTS "Build unit tests" OFF)
+
+if(BUILD_TESTS)
+    enable_testing()
+
+    add_executable(tests
+    ${CMAKE_CURRENT_SOURCE_DIR}/../tests/testmain.cpp
+    )
+
+    target_include_directories(tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    )
+
+    target_compile_features(tests PRIVATE cxx_std_17)
+
+    add_test(NAME unit_tests COMMAND tests)
+endif()
+
+# Build type defaults
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -31,5 +48,3 @@ endif()
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_definitions(-DDEBUG)
 endif()
-
-

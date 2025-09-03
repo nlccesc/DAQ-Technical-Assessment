@@ -181,6 +181,39 @@ since the main.cpp file has try-catch around parseLine(), where bad lines are sk
 - CAN ID validation: hex format, within 29-bit limit
 - Data validation: even hex length, max 16 characters (8 bytes)
 
+I edited the docker-compose.yml file since initially,
+the platform is being set to linux/amd64, which makes docker
+run the container in x86_64 emulation but im on apple silicon
+
+solution: removed 'platform:' line and let docker pick the correct architecture for my machine
+
+Steps to run the test cases inside docker:
+
+1. Enter the container:
+
+docker compose -f 'firmware/docker-compose.yml' up -d --build 'firmware' 
+
+if this doesnt work, go directly to the docker-compose.yml and click 'Run Service'
+
+once running, 
+
+2. Open another terminal, 
+
+docker compose exec firmware bash
+
+3. cd to the solution directory and check if the test binary exists:
+
+cd /app/build/solution
+ls -l
+
+4. run tests
+
+./tests
+
+5. exit when done
+
+exit
+
 ## Spyder
 
 ## Cloud
