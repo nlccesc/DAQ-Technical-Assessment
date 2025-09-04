@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++ -O3 -DNDEBUG -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/answer.dir/main.cpp.o -o answer  -Wl,-rpath,/Users/haohan/Desktop/DAQ-Technical-Assessment/firmware/solution/build/dbcppp dbcppp/libdbcppp.3.8.0.dylib

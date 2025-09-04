@@ -52,6 +52,21 @@ which i found out that it was signed values being interpreted wrongly:
 - voltage: 0-1000v
 - temps: -50 to 150 degrees
 
+steps to run it in docker:
+
+1. build the docker image:
+
+docker compose up --build
+
+2. once built, open another terminal and run:
+
+docker ps
+
+docker exec -it firmware-firmware-1 bash
+
+3. cd into solution: cd /app/build/solution
+and run either answer or tests
+
 TASK 2
 
 Resources I looked through:
@@ -213,6 +228,10 @@ ls -l
 5. exit when done
 
 exit
+
+Stage 4:
+
+tried doing the dbc parser from scratch without the library, the foudations is somewhat complete but the signal regex isnt matching the dbc definitions, so 0 signals parsed. messages were found but no signals extracted and the decoding is incomplete
 
 ## Spyder
 
